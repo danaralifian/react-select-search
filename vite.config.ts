@@ -11,9 +11,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "lib/main.ts"),
-      name: "react-select-search",
+      name: "react-select-search-ui",
       // the proper extensions will be added
-      fileName: "react-select-search",
+      fileName: "react-select-search-ui",
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -38,9 +38,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "react-select-search/style.css": resolve(
+      "react-select-search-ui/style.css": resolve(
         __dirname,
-        "node_modules/react-select-search/dist/style.css"
+        "node_modules/react-select-search-ui/dist/style.css"
       ),
     },
   },

@@ -1,19 +1,27 @@
 {
-  "name": "react-select-search",
-  "version": "0.1.0",
+  "name": "react-select-search-ui",
+  "description": "select component built for React applications,",
+  "version": "0.1.1",
+  "author": "Danar Alifian",
+  "keywords": [
+    "react",
+    "select",
+    "search"
+  ],
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/react-select-search.umd.cjs",
-  "module": "./dist/react-select-search.js",
+  "main": "./dist/react-select-search-ui.umd.cjs",
+  "module": "./dist/react-select-search-ui.js",
   "exports": {
     ".": {
-      "import": "./dist/react-select-search.js",
-      "require": "./dist/react-select-search.umd.cjs"
+      "import": "./dist/react-select-search-ui.js",
+      "require": "./dist/react-select-search-ui.umd.cjs"
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "prebuild": "del -rf dist",

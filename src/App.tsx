@@ -1,4 +1,4 @@
-import { Select } from 'react-select-search'
+import { Select } from 'react-select-search-ui'
 
 function App() {
 

@@ -6,7 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "react-select-search": ["./lib/main.ts"]
+      "react-select-search-ui": ["./lib/main.ts"]
     },
 
     /* Bundler mode */
