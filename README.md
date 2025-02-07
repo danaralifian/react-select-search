@@ -2,6 +2,8 @@
 
 This is a simple yet powerful Select component built for React applications, featuring a searchable dropdown for improved usability, especially when dealing with long lists of options. The component allows users to easily filter through options by typing, making it ideal for forms, settings, and any other UI where selecting from a large set of options is needed.
 
+https://www.npmjs.com/package/react-select-search-ui
+
 [![TypeScript](https://badges.aleen42.com/src/typescript.svg)]()
 
 ## Install
