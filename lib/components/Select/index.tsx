@@ -1,11 +1,11 @@
-import { ChevronDown, CircleX, SearchIcon } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IOption, ISelectProps } from './type'
 import { cn } from '../../utils'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import Chip from '../Chip'
-import { highlightText } from '../../format'
+import Dropdown from '../Dropdown'
 
 const MAX_LIST = 6
 
@@ -54,38 +54,6 @@ export const Select = (props: ISelectProps) => {
         return filtered.slice(0, MAX_LIST);
     }, [search, options])
 
-    const dropdown = (
-        <div
-            className={cn("shadow-md mt-1 border absolute w-full transition-all opacity-0 pointer-events-none", {
-                "opacity-100 pointer-events-auto": isFocus
-            })}>
-            {/* input search */}
-            {withSearch &&
-                <div className='flex p-2 gap-2 items-center border-b'>
-                    <SearchIcon className='text-gray-700' size={16} />
-                    <input
-                        onClick={(e) => e.stopPropagation()}
-                        value={search}
-                        className='w-full outline-none bg-transparent'
-                        onChange={onChangeSearch} />
-                    {!!search && <CircleX className='text-gray-700 cursor-pointer' size={16} onClick={() => setSearch('')} />}
-                </div>}
-            <div>
-                {filteredOptions?.map((option, key) =>
-                    <div
-                        key={key}
-                        className='flex p-2 gap-2 items-center hover:bg-slate-200 cursor-pointer'
-                        onClick={() => onSelect(option)}>
-                        {optionRender ?
-                            optionRender(option) :
-                            <p className='text-sm'>
-                                {highlightText(option.label?.toString(), search as string)}
-                            </p>}
-                    </div>)}
-            </div>
-        </div>
-    )
-
     return (
         <div className={cn('flex gap-4 w-full items-center relative', `z-${zIndex || 0}`, className)}>
             <p>{label}</p>
@@ -114,7 +82,27 @@ export const Select = (props: ISelectProps) => {
                     </div>
                     <ChevronDown className='text-gray-700' size={16} />
                 </div>
-                {portal ? createPortal(dropdown, document.body) : dropdown}
+                {portal ?
+                    createPortal(
+                        <Dropdown
+                            filteredOptions={filteredOptions}
+                            isFocus={isFocus}
+                            onChangeSearch={onChangeSearch}
+                            onSelect={onSelect}
+                            optionRender={optionRender}
+                            search={search}
+                            withSearch={!!withSearch}
+                            onClear={() => setSearch('')} />, document.body
+                    ) :
+                    <Dropdown
+                        filteredOptions={filteredOptions}
+                        isFocus={isFocus}
+                        onChangeSearch={onChangeSearch}
+                        onSelect={onSelect}
+                        optionRender={optionRender}
+                        search={search}
+                        withSearch={!!withSearch}
+                        onClear={() => setSearch('')} />}
             </div>
         </div>
     )
