@@ -1,10 +1,11 @@
 import { ChevronDown, CircleX, SearchIcon } from 'lucide-react'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IOption, ISelectProps } from './type'
-import { cn, highlightText } from '../../utils'
+import { cn } from '../../utils'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import Chip from '../Chip'
+import { highlightText } from '../../format'
 
 const MAX_LIST = 6
 
@@ -30,16 +31,22 @@ export const Select = (props: ISelectProps) => {
 
     const onSelect = (option: IOption) => {
         if (multiple) {
-            if (!selected.includes(option)) setSelected([...selected, option]);
+            if (!selected.some((item) => item.value === option.value)) setSelected([...selected, option]);
         } else setSelected([option])
         setIsFocus(false)
     }
 
+    const handleChange = useCallback(() => {
+        onChange?.(selected);
+    }, [selected, onChange]);
+
     useEffect(() => {
-        onChange?.(selected)
-    }, [selected])
+        handleChange();
+    }, [handleChange]);
+
 
     const filteredOptions = useMemo(() => {
+        if (!search) return options.slice(0, MAX_LIST);
         const filtered = options.filter((option) =>
             option.label.toString()?.toLowerCase().includes(search.toLowerCase())
         );
@@ -57,6 +64,7 @@ export const Select = (props: ISelectProps) => {
                 <div className='flex p-2 gap-2 items-center border-b'>
                     <SearchIcon className='text-gray-700' size={16} />
                     <input
+                        onClick={(e) => e.stopPropagation()}
                         value={search}
                         className='w-full outline-none bg-transparent'
                         onChange={onChangeSearch} />
@@ -70,12 +78,9 @@ export const Select = (props: ISelectProps) => {
                         onClick={() => onSelect(option)}>
                         {optionRender ?
                             optionRender(option) :
-                            <p
-                                className='text-sm'
-                                dangerouslySetInnerHTML={{
-                                    __html: highlightText(option.label?.toString(), search as string),
-                                }}
-                            />}
+                            <p className='text-sm'>
+                                {highlightText(option.label?.toString(), search as string)}
+                            </p>}
                     </div>)}
             </div>
         </div>

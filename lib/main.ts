@@ -1,5 +1,3 @@
 import "./style.css";
 
-import { Select } from "./components/Select";
-
-export { Select };
+export { Select } from "./components/Select";
